@@ -1,24 +1,37 @@
-# README
+# privatir-api
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+VM (VirtualBox) based development environment for the Privatir API.
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+After cloning the repo, get a copy of the `master.key` and add it to
+the config directory `config/master.key`. Make sure to do this before
+bringing up the VM env.
 
-* System dependencies
+    git clone git@github.com:Privatir/privatir-api.git
+    cd privatir-api/
+    cp /path_to_local_copy/master.key config/master.key
 
-* Configuration
+## Vagrant
 
-* Database creation
+To start the VM do:
 
-* Database initialization
+    vagrant up privatir-api
 
-* How to run the test suite
+To stop the VM (save state) do:
 
-* Services (job queues, cache servers, search engines, etc.)
+    agrant suspend privatir-api
 
-* Deployment instructions
+To restart a suspended VM (restore saved state) do:
 
-* ...
+    vagrant resume privatir-api
+
+To access the VM do:
+
+    vagrant ssh privatir-api
+
+To destroy the VM completely do:
+
+    vagrant destroy privatir-api
+
+Happy hacking.
