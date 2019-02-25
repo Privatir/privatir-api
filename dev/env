@@ -1,0 +1,11 @@
+POSTGRES_USER="privatir_dev"
+POSTGRES_PASSWORD="privatir"
+POSTGRES_HOST="localhost"
+POSTGRES_DB="privatir_development"
+POSTGRES_TEST_DB="privatir_test"
+
+REDIS_HOST="localhost"
+REDIS_PORT="6379"
+REDIS_DB="1"
+REDIS_PASSWORD="privatir"
+REDIS_URL="redis://\${REDIS_HOST}:\${REDIS_PORT}/\${REDIS_DB}"

@@ -13,8 +13,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :virtualbox do |v|
     v.name = "privatir-api"
-    v.cpus = 1
-    v.memory = 1024*2
+    v.cpus = 2
+    v.memory = 2048
   end
 
   config.vm.provision "shell", name: "upgrade", inline: <<-SHELL
@@ -45,6 +45,21 @@ Vagrant.configure("2") do |config|
     rbenv rehash
   SHELL
 
+  config.vm.provision "shell", name: "postgres", inline: <<-SHELL
+    cp /opt/privatir-api/dev/env /opt/privatir-api/.env
+    apt-get install -y postgresql postgresql-contrib libpq-dev
+    sudo su - postgres
+    sudo -u postgres psql -c "create role privatir_dev with createdb login password 'privatir'";
+    exit
+  SHELL
+
+  config.vm.provision "shell", name: "redis", inline: <<-SHELL
+    apt-get install -y redis-server
+    cp /opt/privatir-api/dev/redis/redis.conf /etc/redis/redis.conf
+    echo 'requirepass privatir' >> /etc/redis/redis.conf
+    systemctl restart redis
+  SHELL
+
   config.vm.provision "shell", name: "nginx", inline: <<-SHELL
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
     apt-get install -y apt-transport-https ca-certificates
@@ -56,25 +71,14 @@ Vagrant.configure("2") do |config|
     # Move config files into place
     cp /opt/privatir-api/dev/nginx/nginx.conf /etc/nginx/nginx.conf
     cp /opt/privatir-api/dev/nginx/passenger.conf /etc/nginx/passenger.conf
-    service nginx restart
-  SHELL
-
-  config.vm.provision "shell", name: "postgres", inline: <<-SHELL
-    apt-get install -y postgresql postgresql-contrib libpq-dev
-    sudo su - postgres
-    sudo -u postgres psql -c "create role privatir_dev with createdb login password 'privatir'";
-    exit
-  SHELL
-
-  config.vm.provision "shell", name: "nginx-virtual-server", inline: <<-SHELL
     cp /opt/privatir-api/dev/nginx/sites-enabled/privatir-api /etc/nginx/sites-enabled/privatir-api
     service nginx restart
   SHELL
-  
+
   config.vm.provision "shell", name: "rails-app", privileged: false, inline: <<-SHELL
-    cd /opt/privatir-api
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
+    cd /opt/privatir-api
     bundle install
     rake db:setup
     touch tmp/restart.txt

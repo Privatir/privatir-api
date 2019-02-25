@@ -10,9 +10,6 @@ gem 'dotenv-rails'
 # Use postgres as the database for Active Record
 gem 'pg'
 
-# Use Puma as the app server
-gem 'puma', '~> 3.11'
-
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
