@@ -38,8 +38,8 @@ Vagrant.configure("2") do |config|
     echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
-    rbenv install 2.6.1
-    rbenv global 2.6.1
+    rbenv install 2.5.1
+    rbenv global 2.5.1
     ruby -v
     gem install bundler
     rbenv rehash
@@ -62,14 +62,19 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", name: "postgres", inline: <<-SHELL
     apt-get install -y postgresql postgresql-contrib libpq-dev
     sudo su - postgres
-    sudo -u postgres createuser privatir
-    sudo -u postgres createdb -O privatir privatir_development
+    psql -c "create role privatir_dev with createdb login password 'privatir'";
     exit
   SHELL
 
   config.vm.provision "shell", name: "nginx-virtual-server", inline: <<-SHELL
     cp /opt/privatir-api/dev/nginx/sites-enabled/privatir-api /etc/nginx/sites-enabled/privatir-api
     service nginx restart
+  SHELL
+  
+  config.vm.provision "shell", name: "rails-app", inline: <<-SHELL
+    cd /opt/privatir-api
+    bundle install
+    rake db:setup
   SHELL
 
   # config.vm.provision "shell", name: "", inline: <<-SHELL
