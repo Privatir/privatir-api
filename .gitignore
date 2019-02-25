@@ -31,3 +31,9 @@
 
 # Ignore vagrant files
 /.vagrant
+
+# Ignore curl cookie jar file
+cookies.txt
+
+# Ignore virtualbox log
+*.log
