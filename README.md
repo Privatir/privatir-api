@@ -20,7 +20,7 @@ To start the VM do:
 
 To stop the VM (save state) do:
 
-    agrant suspend privatir-api
+    vagrant suspend privatir-api
 
 To restart a suspended VM (restore saved state) do:
 
