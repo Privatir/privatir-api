@@ -18,7 +18,6 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", name: "upgrade", inline: <<-SHELL
-    export DEBIAN_FRONTEND=noninteractive
     apt-get update
     apt-get -u dist-upgrade -y
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -27,7 +26,8 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y git-core curl zlib1g-dev build-essential libssl-dev \
       libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev \
-      libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
+      libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn htop tree
+    npm install -g json
   SHELL
 
   config.vm.provision "shell", name: "rbenv", privileged: false, inline: <<-SHELL
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", name: "postgres", inline: <<-SHELL
     apt-get install -y postgresql postgresql-contrib libpq-dev
     sudo su - postgres
-    psql -c "create role privatir_dev with createdb login password 'privatir'";
+    sudo -u postgres psql -c "create role privatir_dev with createdb login password 'privatir'";
     exit
   SHELL
 
@@ -71,10 +71,14 @@ Vagrant.configure("2") do |config|
     service nginx restart
   SHELL
   
-  config.vm.provision "shell", name: "rails-app", inline: <<-SHELL
+  config.vm.provision "shell", name: "rails-app", privileged: false, inline: <<-SHELL
     cd /opt/privatir-api
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
     bundle install
     rake db:setup
+    touch tmp/restart.txt
+    curl -i localhost/status | json
   SHELL
 
   # config.vm.provision "shell", name: "", inline: <<-SHELL
