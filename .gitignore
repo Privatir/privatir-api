@@ -37,3 +37,6 @@ cookies.txt
 
 # Ignore virtualbox log
 *.log
+
+# Apple BS
+*.DS_Store
