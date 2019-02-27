@@ -7,9 +7,6 @@ gem 'rails', '~> 5.2.2'
 # Runtime env variables
 gem 'dotenv-rails'
 
-# Use postgres as the database for Active Record
-gem 'pg', '~> 0.18.4'
-
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
