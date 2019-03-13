@@ -40,3 +40,9 @@ cookies.txt
 
 # Apple BS
 *.DS_Store
+
+/client/
+/client/node_modules/
+/privatir-client/
+/privatir-client/node_modules/
+/.vscode
