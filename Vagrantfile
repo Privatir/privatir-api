@@ -76,7 +76,7 @@ Vagrant.configure('2') do |config|
   SHELL
 
   config.vm.provision :shell, name: 'api-status', privileged: false, inline: <<-SHELL
-    curl -i http://localhost/status | json
+    curl -i http://localhost/api/status | json
   SHELL
 
   config.vm.provision :shell, name: 'api-signin', privileged: false, inline: <<-SHELL
@@ -84,7 +84,7 @@ Vagrant.configure('2') do |config|
       -H "Content-Type: application/json" \
       -c "cookies.txt" \
       -d '{"email":"user1@email.com","password":"password1"}' \
-      -X POST http://localhost/signin | json
+      -X POST http://localhost/api/signin | json
   SHELL
 
   config.vm.provider :virtualbox do |v|
