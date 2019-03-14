@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   post   '/signup',  controller: :signup,  action: :create
   post   '/signin',  controller: :signin,  action: :create
   delete '/signin',  controller: :signin,  action: :destroy
+
+  get '*path', to: "application#fallback_index_html", constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 end
