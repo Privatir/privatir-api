@@ -28,7 +28,10 @@ gem 'rack-cors'
 gem 'lograge'
 
 # Integrate logging framework
-gem 'logging-rails', :require => 'logging/rails'
+gem 'logging-rails', require: 'logging/rails'
+
+# SendGrid
+gem 'sendgrid-ruby'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
@@ -40,10 +43,10 @@ gem 'logging-rails', :require => 'logging/rails'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'factory_bot_rails', '~> 4.8'
   gem 'pry-byebug', '~> 3.4'
   gem 'pry-rails', '~> 0.3.4'
   gem 'rspec-rails', '~> 3.7'
-  gem 'factory_bot_rails', '~> 4.8'
 end
 
 group :development do
@@ -54,4 +57,4 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
