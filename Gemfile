@@ -33,6 +33,15 @@ gem 'logging-rails', require: 'logging/rails'
 # SendGrid
 gem 'sendgrid-ruby'
 
+=begin
+group :development do
+  gem 'bcrypt_pbkdf'
+  gem 'capistrano', '~> 3.11', require: false
+  gem 'ed25519'
+  gem 'net-ssh'
+end
+=end
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 
