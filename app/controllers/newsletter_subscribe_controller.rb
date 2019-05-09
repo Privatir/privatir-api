@@ -5,7 +5,8 @@ class NewsletterSubscribeController < ApplicationController
 
   def index
     @email = params[:email]
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+    api_key = Rails.application.credentials.send_grid[:api_key]
+    sg = SendGrid::API.new(api_key: api_key)
     mail = SendGrid::Mail.new
     mail.template_id = 'd-23d3c46f7bdc483ca9116bbce32fee72'
     mail.from = SendGrid::Email.new(email: 'info@privatir.com')

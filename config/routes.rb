@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   scope '/api' do
     get '/status', controller: :status, action: :index
-    post '/newsletter_subscribe', controller: :newsletter_subscribe, action: :index
+    post '/newsletter/subscribe', controller: :newsletter_subscribe, action: :index
     post   '/refresh', controller: :refresh, action: :create
     post   '/signup',  controller: :signup,  action: :create
     post   '/signin',  controller: :signin,  action: :create
